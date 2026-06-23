@@ -37,7 +37,7 @@ router.get("/", requireAuth, async (req, res) => {
 
 router.patch("/:notificationId/read", requireAuth, async (req, res) => {
   const user = getUser(req);
-  const notificationId = parseInt(req.params.notificationId!);
+  const notificationId = parseInt(String(req.params.notificationId ?? ""));
   if (isNaN(notificationId)) {
     res.status(400).json({ error: "Invalid notification ID" });
     return;

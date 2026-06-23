@@ -32,7 +32,7 @@ async function formatBid(b: import("@workspace/db").Bid) {
 }
 
 router.get("/job/:jobId", requireAuth, async (req, res) => {
-  const jobId = parseInt(req.params.jobId!);
+  const jobId = parseInt(String(req.params.jobId ?? ""));
   if (isNaN(jobId)) {
     res.status(400).json({ error: "Invalid job ID" });
     return;
@@ -49,7 +49,7 @@ router.get("/job/:jobId", requireAuth, async (req, res) => {
 
 router.post("/job/:jobId", requireAuth, async (req, res) => {
   const user = getUser(req);
-  const jobId = parseInt(req.params.jobId!);
+  const jobId = parseInt(String(req.params.jobId ?? ""));
   if (isNaN(jobId)) {
     res.status(400).json({ error: "Invalid job ID" });
     return;
@@ -103,7 +103,7 @@ router.post("/job/:jobId", requireAuth, async (req, res) => {
 
 router.patch("/:bidId", requireAuth, async (req, res) => {
   const user = getUser(req);
-  const bidId = parseInt(req.params.bidId!);
+  const bidId = parseInt(String(req.params.bidId ?? ""));
   if (isNaN(bidId)) {
     res.status(400).json({ error: "Invalid bid ID" });
     return;
@@ -131,7 +131,7 @@ router.patch("/:bidId", requireAuth, async (req, res) => {
 
 router.delete("/:bidId", requireAuth, async (req, res) => {
   const user = getUser(req);
-  const bidId = parseInt(req.params.bidId!);
+  const bidId = parseInt(String(req.params.bidId ?? ""));
   if (isNaN(bidId)) {
     res.status(400).json({ error: "Invalid bid ID" });
     return;
@@ -154,7 +154,7 @@ router.delete("/:bidId", requireAuth, async (req, res) => {
 
 router.post("/:bidId/accept", requireAuth, async (req, res) => {
   const user = getUser(req);
-  const bidId = parseInt(req.params.bidId!);
+  const bidId = parseInt(String(req.params.bidId ?? ""));
   if (isNaN(bidId)) {
     res.status(400).json({ error: "Invalid bid ID" });
     return;

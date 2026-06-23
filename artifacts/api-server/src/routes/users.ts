@@ -34,7 +34,7 @@ router.patch("/me", requireAuth, async (req, res) => {
 });
 
 router.get("/:userId", requireAuth, async (req, res) => {
-  const userId = parseInt(req.params.userId!);
+  const userId = parseInt(String(req.params.userId ?? ""));
   if (isNaN(userId)) {
     res.status(400).json({ error: "Invalid user ID" });
     return;

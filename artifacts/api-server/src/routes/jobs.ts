@@ -99,7 +99,7 @@ router.post("/", requireAuth, async (req, res) => {
 });
 
 router.get("/:jobId", requireAuth, async (req, res) => {
-  const jobId = parseInt(req.params.jobId!);
+  const jobId = parseInt(String(req.params.jobId ?? ""));
   if (isNaN(jobId)) {
     res.status(400).json({ error: "Invalid job ID" });
     return;
@@ -132,7 +132,7 @@ router.get("/:jobId", requireAuth, async (req, res) => {
 
 router.patch("/:jobId", requireAuth, async (req, res) => {
   const user = getUser(req);
-  const jobId = parseInt(req.params.jobId!);
+  const jobId = parseInt(String(req.params.jobId ?? ""));
   if (isNaN(jobId)) {
     res.status(400).json({ error: "Invalid job ID" });
     return;
@@ -164,7 +164,7 @@ router.patch("/:jobId", requireAuth, async (req, res) => {
 
 router.delete("/:jobId", requireAuth, async (req, res) => {
   const user = getUser(req);
-  const jobId = parseInt(req.params.jobId!);
+  const jobId = parseInt(String(req.params.jobId ?? ""));
   if (isNaN(jobId)) {
     res.status(400).json({ error: "Invalid job ID" });
     return;

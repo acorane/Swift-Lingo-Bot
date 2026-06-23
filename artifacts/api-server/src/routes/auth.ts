@@ -1,3 +1,4 @@
+import { createHmac } from "node:crypto";
 import { Router } from "express";
 import { db, usersTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
@@ -10,17 +11,46 @@ function parseTelegramInitData(initData: string): Record<string, string> {
   const params: Record<string, string> = {};
   const pairs = initData.split("&");
   for (const pair of pairs) {
-    const [key, value] = pair.split("=");
-    if (key && value !== undefined) {
-      params[decodeURIComponent(key)] = decodeURIComponent(value);
-    }
+    const eqIdx = pair.indexOf("=");
+    if (eqIdx === -1) continue;
+    const key = decodeURIComponent(pair.slice(0, eqIdx));
+    const value = decodeURIComponent(pair.slice(eqIdx + 1));
+    params[key] = value;
   }
   return params;
+}
+
+function validateTelegramHash(initData: string, botToken: string): boolean {
+  try {
+    const params = parseTelegramInitData(initData);
+    const hash = params["hash"];
+    if (!hash) return false;
+
+    const dataCheckEntries = Object.entries(params)
+      .filter(([k]) => k !== "hash")
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([k, v]) => `${k}=${v}`)
+      .join("\n");
+
+    const secretKey = createHmac("sha256", "WebAppData")
+      .update(botToken)
+      .digest();
+    const expectedHash = createHmac("sha256", secretKey)
+      .update(dataCheckEntries)
+      .digest("hex");
+
+    return expectedHash === hash;
+  } catch {
+    return false;
+  }
 }
 
 router.post("/telegram", async (req, res) => {
   try {
     const { initData } = req.body as { initData?: string };
+
+    const botToken = process.env["TELEGRAM_BOT_TOKEN"];
+    const isProduction = process.env["NODE_ENV"] === "production";
 
     let telegramId: string;
     let username: string | undefined;
@@ -29,6 +59,13 @@ router.post("/telegram", async (req, res) => {
     let photoUrl: string | undefined;
 
     if (initData && initData.trim()) {
+      if (isProduction && botToken) {
+        if (!validateTelegramHash(initData, botToken)) {
+          res.status(401).json({ error: "Invalid Telegram auth data" });
+          return;
+        }
+      }
+
       const params = parseTelegramInitData(initData);
       const userStr = params["user"];
       if (userStr) {

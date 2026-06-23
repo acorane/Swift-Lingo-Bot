@@ -9,7 +9,7 @@ const router = Router();
 
 router.get("/:contractId/messages", requireAuth, async (req, res) => {
   const user = getUser(req);
-  const contractId = parseInt(req.params.contractId!);
+  const contractId = parseInt(String(req.params.contractId ?? ""));
   if (isNaN(contractId)) {
     res.status(400).json({ error: "Invalid contract ID" });
     return;
@@ -50,7 +50,7 @@ router.get("/:contractId/messages", requireAuth, async (req, res) => {
 
 router.post("/:contractId/messages", requireAuth, async (req, res) => {
   const user = getUser(req);
-  const contractId = parseInt(req.params.contractId!);
+  const contractId = parseInt(String(req.params.contractId ?? ""));
   if (isNaN(contractId)) {
     res.status(400).json({ error: "Invalid contract ID" });
     return;
