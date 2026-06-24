@@ -13,6 +13,8 @@ const translations = {
     // Auth
     login_dev: 'Dev Login',
     loading: 'Loading...',
+    logging_in: 'Logging in…',
+    try_again: 'Try again',
     logout: 'Log Out',
     // Jobs list
     post_job: 'Post Job',
@@ -155,6 +157,8 @@ const translations = {
     // Auth
     login_dev: 'Вход для разработчиков',
     loading: 'Загрузка...',
+    logging_in: 'Вход в систему…',
+    try_again: 'Попробовать снова',
     logout: 'Выйти',
     // Jobs list
     post_job: 'Разместить заказ',
@@ -297,6 +301,8 @@ const translations = {
     // Auth
     login_dev: 'Dasturchi kirish',
     loading: 'Yuklanmoqda...',
+    logging_in: 'Tizimga kirilmoqda…',
+    try_again: 'Qayta urinib ko\'ring',
     logout: 'Chiqish',
     // Jobs list
     post_job: 'Ish joylash',
