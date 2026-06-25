@@ -205,7 +205,7 @@ export default function PostJob() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="">{t("any")}</SelectItem>
+                      <SelectItem value="any">{t("any")}</SelectItem>
                       <SelectItem value="legal">Legal</SelectItem>
                       <SelectItem value="medical">Medical</SelectItem>
                       <SelectItem value="technical">Technical</SelectItem>
