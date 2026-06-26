@@ -212,7 +212,7 @@ export default function TranslatorApply() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <FormLabel className="text-sm">{t("source_languages")}</FormLabel>
+                <Label className="text-sm">{t("source_languages")}</Label>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {LANGUAGES.map(lang => (
                     <button
@@ -232,7 +232,7 @@ export default function TranslatorApply() {
               </div>
 
               <div>
-                <FormLabel className="text-sm">{t("target_languages")}</FormLabel>
+                <Label className="text-sm">{t("target_languages")}</Label>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {LANGUAGES.map(lang => (
                     <button
